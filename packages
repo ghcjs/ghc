@@ -83,3 +83,4 @@ libraries/random                dph         packages/random.git                 
 libraries/primitive             dph         packages/primitive.git              git
 libraries/vector                dph         packages/vector.git                 git
 libraries/dph                   dph         packages/dph.git                    git
+compiler/ghcjs                  ghcjs       ghcjs.git                           git

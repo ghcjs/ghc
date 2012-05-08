@@ -130,6 +130,7 @@ import NameSet          ( emptyNameSet )
 import InstEnv
 import FamInstEnv
 import Fingerprint      ( Fingerprint )
+import GHCJSMain        ( writeJavaScriptModule, CallingConvention(..) )
 
 import DynFlags
 import ErrUtils
@@ -1225,6 +1226,10 @@ hscGenHardCode cgguts mod_summary = do
         (stg_binds, cost_centre_info)
             <- {-# SCC "CoreToStg" #-}
                myCoreToStg dflags this_mod prepd_binds
+
+        ------------------  JavaScript generation ------------------
+
+        writeJavaScriptModule Trampoline mod_summary cgguts (stg_binds, cost_centre_info)
 
         let prof_init = profilingInitCode platform this_mod cost_centre_info
             foreign_stubs = foreign_stubs0 `appendStubC` prof_init

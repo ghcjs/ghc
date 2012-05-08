@@ -63,6 +63,7 @@ import Data.List        ( isSuffixOf )
 import Data.Maybe
 import System.Environment
 import Data.Char
+import GHCJSMain        ( linkJavaScript )
 
 -- ---------------------------------------------------------------------------
 -- Pre-process
@@ -1793,6 +1794,8 @@ linkBinary dflags o_files dep_packages = do
     if success then return ()
                else ghcError (InstallationError ("cannot move binary"))
 
+    -- Java Script Link
+    linkJavaScript dflags (o_files ++ filter ((==".o").takeExtension) extra_ld_inputs) dep_packages
 
 exeFileName :: DynFlags -> FilePath
 exeFileName dflags
