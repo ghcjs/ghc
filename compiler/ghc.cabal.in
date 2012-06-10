@@ -497,6 +497,7 @@ Library
         Generator.Helpers
         Generator.PrimOp
         Generator.Link
+        Compiler.Variants
         GHCJSMain
         RTS.Objects
         Javascript.Formatted

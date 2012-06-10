@@ -130,7 +130,7 @@ import NameSet          ( emptyNameSet )
 import InstEnv
 import FamInstEnv
 import Fingerprint      ( Fingerprint )
-import GHCJSMain        ( writeJavaScriptModule, CallingConvention(..) )
+import GHCJSMain        ( writeJavaScriptModule )
 
 import DynFlags
 import ErrUtils
@@ -1229,7 +1229,7 @@ hscGenHardCode cgguts mod_summary = do
 
         ------------------  JavaScript generation ------------------
 
-        writeJavaScriptModule Trampoline mod_summary cgguts (stg_binds, cost_centre_info)
+        writeJavaScriptModule mod_summary cgguts (stg_binds, cost_centre_info)
 
         let prof_init = profilingInitCode platform this_mod cost_centre_info
             foreign_stubs = foreign_stubs0 `appendStubC` prof_init

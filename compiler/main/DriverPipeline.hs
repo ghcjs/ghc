@@ -1795,7 +1795,7 @@ linkBinary dflags o_files dep_packages = do
                else ghcError (InstallationError ("cannot move binary"))
 
     -- Java Script Link
-    linkJavaScript dflags (o_files ++ filter ((==".o").takeExtension) extra_ld_inputs) dep_packages
+    linkJavaScript dflags (o_files ++ filter ((==".o").takeExtension) extra_ld_inputs) dep_packages []
 
 exeFileName :: DynFlags -> FilePath
 exeFileName dflags
