@@ -116,6 +116,7 @@ Library
         hsSyn
         iface
         llvmGen
+        ghcjs/src
         main
         nativeGen
         parser
@@ -476,6 +477,23 @@ Library
         Vectorise
         Hoopl.Dataflow
         Hoopl
+
+        Generator.TopLevel
+        Generator.FFI
+        Generator.Dependencies
+        Generator.Core
+        Generator.Helpers
+        Generator.PrimOp
+        Generator.Link
+        GHCJSMain
+        RTS.Objects
+        Javascript.Formatted
+        Javascript.Formatted.Expression
+        Javascript.Formatted.Base
+        Javascript.Formatted.Monads
+        Javascript.Formatted.Statement
+        Javascript.Trampoline
+        Javascript.Language
 
     Exposed-Modules:
             AsmCodeGen
