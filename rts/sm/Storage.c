@@ -78,6 +78,7 @@ initGeneration (generation *gen, int g)
     gen->n_old_blocks = 0;
     gen->large_objects = NULL;
     gen->n_large_blocks = 0;
+    gen->n_large_words = 0;
     gen->n_new_large_words = 0;
     gen->scavenged_large_objects = NULL;
     gen->n_scavenged_large_blocks = 0;
@@ -437,10 +438,14 @@ allocNursery (bdescr *tail, W_ blocks)
     // tiny optimisation (~0.5%), but it's free.
 
     while (blocks > 0) {
-        n = stg_min(blocks, BLOCKS_PER_MBLOCK);
+        n = stg_min(BLOCKS_PER_MBLOCK, blocks);
+        // allocLargeChunk will prefer large chunks, but will pick up
+        // small chunks if there are any available.  We must allow
+        // single blocks here to avoid fragmentation (#7257)
+        bd = allocLargeChunk(1, n);
+        n = bd->blocks;
         blocks -= n;
 
-        bd = allocGroup(n);
         for (i = 0; i < n; i++) {
             initBdescr(&bd[i], g0, g0);
 
@@ -759,6 +764,7 @@ allocatePinned (Capability *cap, W_ n)
         // g0->large_objects.
         if (bd != NULL) {
             dbl_link_onto(bd, &cap->pinned_object_blocks);
+            cap->total_allocated += bd->free - bd->start;
         }
 
         // We need to find another block.  We could just allocate one,
@@ -947,7 +953,7 @@ W_ countOccupied (bdescr *bd)
 
 W_ genLiveWords (generation *gen)
 {
-    return gen->n_words + countOccupied(gen->large_objects);
+    return gen->n_words + gen->n_large_words;
 }
 
 W_ genLiveBlocks (generation *gen)

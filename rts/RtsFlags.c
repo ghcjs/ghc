@@ -115,6 +115,11 @@ void initRtsFlagsDefaults(void)
     RtsFlags.GcFlags.frontpanel         = rtsFalse;
 #endif
     RtsFlags.GcFlags.idleGCDelayTime    = USToTime(300000); // 300ms
+#ifdef THREADED_RTS
+    RtsFlags.GcFlags.doIdleGC           = rtsTrue;
+#else
+    RtsFlags.GcFlags.doIdleGC           = rtsFalse;
+#endif
 
 #if osf3_HOST_OS
 /* ToDo: Perhaps by adjusting this value we can make linking without
@@ -915,8 +920,13 @@ error = rtsTrue;
 		if (rts_argv[arg][2] == '\0') {
 		  /* use default */
 		} else {
-                    RtsFlags.GcFlags.idleGCDelayTime =
-                        fsecondsToTime(atof(rts_argv[arg]+2));
+                    Time t = fsecondsToTime(atof(rts_argv[arg]+2));
+                    if (t == 0) {
+                        RtsFlags.GcFlags.doIdleGC = rtsFalse;
+                    } else {
+                        RtsFlags.GcFlags.doIdleGC = rtsTrue;
+                        RtsFlags.GcFlags.idleGCDelayTime = t;
+                    }
 		}
 		break;
 
@@ -1543,7 +1553,7 @@ decodeSize(const char *flag, nat offset, StgWord64 min, StgWord64 max)
     if (m < 0 || val < min || val > max) {
         // printf doesn't like 64-bit format specs on Windows
         // apparently, so fall back to unsigned long.
-        errorBelch("error in RTS option %s: size outside allowed range (%" FMT_SizeT " - %" FMT_SizeT ")", flag, (W_)min, (W_)max);
+        errorBelch("error in RTS option %s: size outside allowed range (%" FMT_Word " - %" FMT_Word ")", flag, (W_)min, (W_)max);
         stg_exit(EXIT_FAILURE);
     }
 
