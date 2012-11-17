@@ -310,19 +310,23 @@ endif
 # They do not say "this package will be built"; see $(PACKAGES_xx) for that
 
 # Packages that are built but not installed
-PKGS_THAT_ARE_INTREE_ONLY := haskeline transformers terminfo utf8-string xhtml
+PKGS_THAT_ARE_INTREE_ONLY := haskeline transformers terminfo utf8-string \
+    xhtml mtl text syb parsec cpphs haskell-src-exts wl-pprint-text hashable \
+    unordered-containers attoparsec blaze-builder safe regex-base regex-posix \
+    primitive dlist parseargs th-lift th-orphans haskell-src-meta vector \
+    aeson jmacro
 
 PKGS_THAT_ARE_DPH := \
     dph/dph-base \
     dph/dph-prim-interface dph/dph-prim-seq dph/dph-prim-par \
     dph/dph-lifted-base \
     dph/dph-lifted-boxed dph/dph-lifted-copy dph/dph-lifted-vseg \
-    vector primitive random
+    random
 
 # Packages that, if present, must be built by the stage2 compiler,
 # because they use TH and/or annotations, or depend on other stage2
 # packages:
-PKGS_THAT_BUILD_WITH_STAGE2 := $(PKGS_THAT_ARE_DPH) haskell98 haskell2010
+PKGS_THAT_BUILD_WITH_STAGE2 := $(PKGS_THAT_ARE_DPH) haskell98 haskell2010 th-lift haskell-src-meta vector th-orphans aeson jmacro
 
 # Packages that we shouldn't build if we don't have TH (e.g. because
 # we're building a profiled compiler):
@@ -428,6 +432,29 @@ $(eval $(call addPackage,utf8-string))
 $(eval $(call addPackage,xhtml))
 $(eval $(call addPackage,terminfo,($$(Windows),NO)))
 $(eval $(call addPackage,haskeline))
+$(eval $(call addPackage,mtl))
+$(eval $(call addPackage,text))
+$(eval $(call addPackage,syb))
+$(eval $(call addPackage,parsec))
+$(eval $(call addPackage,cpphs))
+$(eval $(call addPackage,haskell-src-exts))
+$(eval $(call addPackage,th-lift))
+$(eval $(call addPackage,th-orphans))
+$(eval $(call addPackage,haskell-src-meta))
+$(eval $(call addPackage,wl-pprint-text))
+$(eval $(call addPackage,hashable))
+$(eval $(call addPackage,unordered-containers))
+$(eval $(call addPackage,attoparsec))
+$(eval $(call addPackage,blaze-builder))
+$(eval $(call addPackage,safe))
+$(eval $(call addPackage,regex-base))
+$(eval $(call addPackage,regex-posix))
+$(eval $(call addPackage,primitive))
+$(eval $(call addPackage,vector))
+$(eval $(call addPackage,dlist))
+$(eval $(call addPackage,aeson))
+$(eval $(call addPackage,parseargs))
+$(eval $(call addPackage,jmacro))
 
 $(eval $(call extra-packages))
 

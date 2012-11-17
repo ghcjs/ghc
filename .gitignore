@@ -3,7 +3,6 @@
 
 Thumbs.db
 .DS_Store
-
 *~
 #*#
 *.bak
@@ -11,7 +10,6 @@ Thumbs.db
 *.orig
 *.prof
 *.rej
-
 *.hi
 *.hi-boot
 *.o-boot
@@ -27,21 +25,14 @@ Thumbs.db
 *.depend*
 log
 tags
-
 autom4te.cache
 config.log
 config.status
 configure
-
-# -----------------------------------------------------------------------------
 # Ignore any overlapped darcs repos and back up files
-
 *-darcs-backup*
 _darcs/
-
-# -----------------------------------------------------------------------------
 # sub-repositories
-
 /ghc-tarballs/
 /libraries/Cabal/
 /libraries/Win32/
@@ -83,10 +74,7 @@ _darcs/
 /testsuite/
 /utils/haddock/
 /utils/hsc2hs/
-
-# -----------------------------------------------------------------------------
 # specific generated files
-
 /bindist-list
 /bindistprep/
 /bindisttest/HelloWorld
@@ -238,8 +226,6 @@ _darcs/
 /utils/runghc/runhaskell
 /utils/runstdtest/runstdtest
 /utils/unlit/unlit
-
-
 /extra-gcc-opts
-
 .tm_properties
+/bootstrapping/
