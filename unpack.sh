@@ -90,3 +90,43 @@ mv dlist-0.5 libraries/dlist
 cabal unpack parseargs-0.1.3.2
 rm -rf libraries/parseargs
 mv parseargs-0.1.3.2 libraries/parseargs
+
+cabal unpack cereal-0.3.5.2
+rm -rf libraries/cereal
+mv cereal-0.3.5.2 libraries/cereal
+
+cabal unpack lens-3.2
+rm -rf libraries/lens
+mv lens-3.2 libraries/lens
+
+cabal unpack comonad-3.0.0.2
+rm -rf libraries/comonad
+mv comonad-3.0.0.2 libraries/comonad
+
+cabal unpack comonad-transformers-3.0
+rm -rf libraries/comonad-transformers
+mv comonad-transformers-3.0 libraries/comonad-transformers
+
+cabal unpack comonads-fd-3.0
+rm -rf libraries/comonads-fd
+mv comonads-fd-3.0 libraries/comonads-fd
+
+cabal unpack parallel-3.2.0.3
+rm -rf libraries/parallel
+mv parallel-3.2.0.3 libraries/parallel
+
+cabal unpack semigroups-0.8.4.1
+rm -f libraries/semigroups
+mv semigroups-0.8.4.1 libraries/semigroups
+
+cabal unpack contravariant-0.2.0.2
+rm -rf libraries/contravariant
+mv contravariant-0.2.0.2 libraries/contravariant
+
+cabal unpack distributive-0.2.2
+rm -rf libraries/distributive
+mv distributive-0.2.2 libraries/distributive
+
+cabal unpack semigroupoids-3.0.0.1
+rm -rf libraries/semigroupoids
+mv semigroupoids-3.0.0.1 libraries/semigroupoids

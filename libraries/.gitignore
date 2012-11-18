@@ -18,3 +18,12 @@
 /th-orphans/
 /unordered-containers/
 /wl-pprint-text/
+/lens/
+/semigroupoids/
+/semigroups/
+/cereal/
+/comonad/
+/comonad-transformers/
+/comonads-fd/
+/contravariant/
+/distributive/

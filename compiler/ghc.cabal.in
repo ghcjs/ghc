@@ -77,7 +77,8 @@ Library
     if flag(stage3)
         CPP-Options: -DGHCJS_ENABLED -DGHCJS_TRAMPOLINE -DGHCJS_GEN2
         Build-Depends: syb, mtl, template-haskell, aeson, jmacro,
-                       attoparsec, text, wl-pprint-text
+                       attoparsec, text, wl-pprint-text, cereal,
+                       hoopl, lens
         Exposed-Modules:
             Gen2.Optimizer
             Gen2.Printer
@@ -94,6 +95,7 @@ Library
             Gen2.Utils
             Gen2.Floater
             Gen2.Generator
+            Gen2.Linker
             Compiler.Variants
             Generator.Link
 

@@ -314,7 +314,8 @@ PKGS_THAT_ARE_INTREE_ONLY := haskeline transformers terminfo utf8-string \
     xhtml mtl text syb parsec cpphs haskell-src-exts wl-pprint-text hashable \
     unordered-containers attoparsec blaze-builder safe regex-base regex-posix \
     primitive dlist parseargs th-lift th-orphans haskell-src-meta vector \
-    aeson jmacro
+    aeson jmacro cereal lens comonad comonad-transformers comonads-fd \
+    semigroups contravariant distributive semigroupoids
 
 PKGS_THAT_ARE_DPH := \
     dph/dph-base \
@@ -326,7 +327,8 @@ PKGS_THAT_ARE_DPH := \
 # Packages that, if present, must be built by the stage2 compiler,
 # because they use TH and/or annotations, or depend on other stage2
 # packages:
-PKGS_THAT_BUILD_WITH_STAGE2 := $(PKGS_THAT_ARE_DPH) haskell98 haskell2010 th-lift haskell-src-meta vector th-orphans aeson jmacro
+PKGS_THAT_BUILD_WITH_STAGE2 := $(PKGS_THAT_ARE_DPH) haskell98 haskell2010 \
+    th-lift haskell-src-meta vector th-orphans aeson jmacro lens
 
 # Packages that we shouldn't build if we don't have TH (e.g. because
 # we're building a profiled compiler):
@@ -442,6 +444,14 @@ $(eval $(call addPackage,th-lift))
 $(eval $(call addPackage,th-orphans))
 $(eval $(call addPackage,haskell-src-meta))
 $(eval $(call addPackage,wl-pprint-text))
+$(eval $(call addPackage,contravariant))
+$(eval $(call addPackage,distributive))
+$(eval $(call addPackage,semigroups))
+$(eval $(call addPackage,comonad))
+$(eval $(call addPackage,semigroupoids))
+$(eval $(call addPackage,comonad-transformers))
+$(eval $(call addPackage,comonads-fd))
+$(eval $(call addPackage,cereal))
 $(eval $(call addPackage,hashable))
 $(eval $(call addPackage,unordered-containers))
 $(eval $(call addPackage,attoparsec))
@@ -454,9 +464,10 @@ $(eval $(call addPackage,vector))
 $(eval $(call addPackage,dlist))
 $(eval $(call addPackage,aeson))
 $(eval $(call addPackage,parseargs))
-$(eval $(call addPackage,jmacro))
 
 $(eval $(call extra-packages))
+$(eval $(call addPackage,lens))
+$(eval $(call addPackage,jmacro))
 
 # -------------------------------------------
 # Dependencies between package-data.mk files
