@@ -9,7 +9,7 @@ install:
   - git checkout gen2
   - cd ../..
 script:
-  - ./ghcjs-build.sh
+  - sh ghcjs-build.sh
 notifications:
   irc:
     channels: "irc.freenode.net#ghcjs"

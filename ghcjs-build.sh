@@ -33,3 +33,24 @@ make -j5 || make -j5 || make -j5 || make -j5
 # Install
 make install
 
+export PATH=$HOME/ghcjs/bin:$PATH
+hash -r
+
+# Delete old ghcjs cabal if it is there
+rm $HOME/ghcjs/bin/cabal || true
+hash -r
+cabal install cabal-install --prefix=$HOME/ghcjs
+hash -r
+
+ghc-pkg unregister HTTP
+ghc-pkg unregister network
+ghc-pkg unregister parsec
+ghc-pkg unregister mtl
+ghc-pkg unregister transformers
+ghc-pkg unregister zlib
+ghc-pkg unregister random
+ghc-pkg unregister text
+
+cabal install cabal-dev --prefix=$HOME/ghcjs
+cabal install cabal-meta --prefix=$HOME/ghcjs
+
