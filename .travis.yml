@@ -1,11 +1,18 @@
 language: haskell
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get --no-install-recommends install darcs
 install:
   - ./sync-all -r https://github.com/ghc get
   - ./sync-all -r https://github.com/ghcjs --ghcjs get
   - ./sync-all checkout ghc-7.6
   - ./unpack.sh
+  - cp -f ghcjs-patches/cpphs.cabal libraries/cpphs/
+  - cp -f ghcjs-patches/parseargs.cabal libraries/parseargs/
   - cp mk/build.mk.sample mk/build.mk
-  - cd libraries/ghcjs
+  - cd libraries
+  - darcs get http://patch-tag.com/r/gershomb/jmacro
+  - cd ghcjs
   - git checkout gen2
   - cd ../..
 script:
