@@ -1,0 +1,355 @@
+1 patch for repository http://patch-tag.com/r/gershomb/jmacro:
+
+Wed Nov 21 16:52:34 NZDT 2012  Hamish Mackenzie <hamish.k.mackenzie@googlemail.com>
+  * Disable jmacro executables and regex support for integrated GHCJS
+
+
+New patches:
+
+[Disable jmacro executables and regex support for integrated GHCJS
+Hamish Mackenzie <hamish.k.mackenzie@googlemail.com>**20121121035234
+ Ignore-this: 36ff46b5e9196bfe5d706161b05c6235
+] hunk ./Language/Javascript/JMacro/QQ.hs 39
+ import qualified Text.ParserCombinators.Parsec.Token as P
+ import Text.ParserCombinators.Parsec.Language(javaStyle)
+ 
+-import Text.Regex.Posix.String
+ 
+ import Language.Javascript.JMacro.Base
+ import Language.Javascript.JMacro.Types
+hunk ./Language/Javascript/JMacro/QQ.hs 580
+ --args :: JMParser [JExpr]
+ --args = parens $ commaSep expr
+ 
+-compileRegex :: String -> Either WrapError Regex
+-compileRegex s = unsafePerformIO $ compile co eo s
+-    where co = compExtended
+-          eo = execBlank
+-
+ expr :: JMParser JExpr
+ expr = do
+   e <- exprWithIf
+hunk ./Language/Javascript/JMacro/QQ.hs 665
+               str   = JStr   <$> (myStringLiteral '"' <|> myStringLiteral '\'')
+               regex = do
+                 s <- regexLiteral --myStringLiteralNoBr '/'
+-                case compileRegex s of
+-                  Right _ -> return (JRegEx s)
+-                  Left err -> fail ("Parse error in regexp: " ++ show err)
++                return (JRegEx s)
+               list  = JList  <$> brackets' (commaSep expr)
+               hash  = JHash  . M.fromList <$> braces' (commaSep propPair)
+               var = JVar <$> ident'
+hunk ./jmacro.cabal 15
+ Cabal-Version:       >= 1.6
+ 
+ library
+-  build-depends:     base >= 4, base < 5, containers, wl-pprint-text, text, safe >= 0.2, parsec > 3.0, template-haskell >= 2.3, mtl > 1.1 , haskell-src-exts, haskell-src-meta, bytestring >= 0.9, syb, aeson >= 0.5 , regex-posix > 0.9, vector >= 0.8, unordered-containers >= 0.2
++  build-depends:     base >= 4, base < 5, containers, wl-pprint-text, text, safe >= 0.2, parsec > 3.0, template-haskell >= 2.3, mtl > 1.1 , haskell-src-exts, haskell-src-meta, bytestring >= 0.9, syb, aeson >= 0.5 , vector >= 0.8, unordered-containers >= 0.2
+ 
+   exposed-modules:   Language.Javascript.JMacro
+                      Language.Javascript.JMacro.Util
+hunk ./jmacro.cabal 28
+                      Language.Javascript.JMacro.ParseTH
+   ghc-options:       -Wall
+ 
+-flag benchmarks
+-  description: Build the benchmarks
+-  default: False
+-
+-executable jmacro
+-  build-depends: parseargs
+-  main-is: Language/Javascript/JMacro/Executable.hs
+-
+-executable jmacro-bench
+-  main-is: Language/Javascript/JMacro/Benchmark.hs
+-  if flag(benchmarks)
+-    buildable: True
+-    build-depends: criterion
+-  else
+-    buildable: False
+-
+ source-repository head
+   type:      darcs
+   location:  http://patch-tag.com/r/gershomb/jmacro
+
+Context:
+
+[do while blocks
+**20120823203646
+ Ignore-this: 6cf20f23b0276d0205f3fd8c26cee1c0
+] 
+[lots of type cleaning
+**20120823182839
+ Ignore-this: 45ce320f6e29351284af1ba446b11d3e
+] 
+[kill rpcs, bump version
+**20120822221051
+ Ignore-this: a6ebf28b8254e9bd0c0955ce2afed75
+] 
+[fix forstat, "default:" parser
+**20120822221033
+ Ignore-this: 7c7eb2537ee27886faafc1b073c54a8c
+] 
+[json to aeson, fix pretty printer
+**20120822221004
+ Ignore-this: 4aa84e581161787ba0a6d0cede083de0
+] 
+[improve for parser
+**20120822213120
+ Ignore-this: d8f7aad059d16968892da7231c6699ac
+] 
+[add missing operators
+stegeman@gmail.com**20120822131224
+ Ignore-this: 1391711822041faab7b7b538fedcabe8
+] 
+[add break, continue, label logic. -Wall cleaning
+**20120614202943
+ Ignore-this: c2faea0fce27001d2ef21dcf57ea8fa5
+] 
+[tweak cabal
+**20120503175748
+ Ignore-this: a771de951b334045600978bddb56a99a
+] 
+[fix broken indentation/braces in port to wl-pprint-text
+Dag Odenhall <dag.odenhall@gmail.com>**20120502212924
+ Ignore-this: 38b161830961e8991d7deb548bfb68f0
+] 
+[pull upstream
+Dag Odenhall <dag.odenhall@gmail.com>**20120502204226
+ Ignore-this: 76fd11f0f6d46ef7a7851e8b95cc26d9
+] 
+[make the jmacro executable use wl-pprint-text correctly
+Dag Odenhall <dag.odenhall@gmail.com>**20120415020713
+ Ignore-this: 7d6c92e3dd1684e0ea0fe7849b9fe3dd
+] 
+[add basic criterion benchmarks
+Dag Odenhall <dag.odenhall@gmail.com>**20120414232847
+ Ignore-this: ffd717c15c1684803d219a19e763e2c
+] 
+[port renderer to wl-pprint-text
+Dag Odenhall <dag.odenhall@gmail.com>**20120414201644
+ Ignore-this: 7fa1c35398bc5b174e95f5bc8503f8a7
+] 
+[monadify parsejson
+**20120501200625
+ Ignore-this: 516ecb4cbf2ce3260146f3e91a493a79
+] 
+[remove web-encodings dep
+**20120501181820
+ Ignore-this: e6ae6ef192c966fb6f36100c67eda571
+] 
+[resolve ambiguities in ghc 7.4
+**20120323154427
+ Ignore-this: bc2505304ddd8012ecf23d83eadb52b9
+] 
+[allow uppercase idents in function args
+**20120323153918
+ Ignore-this: e60e9dc873feab67f8bf2695f690e9a1
+] 
+[switch from pcre-light to std regex-posix from platform
+**20120323151842
+ Ignore-this: d358402bfa90c0353783a87e9acb831d
+] 
+[add doc link
+**20110729224002
+ Ignore-this: e5d6009e8aceea5467a7efb638b18b65
+] 
+[addl documentation
+**20110729212738
+ Ignore-this: 570c7193aececb3884d0dfb89944ebcb
+] 
+[prefix --, ++
+**20110729212026
+ Ignore-this: 1ac367c80baef998992297884a3cfcd4
+] 
+[destructuring bind for var decls
+gershomb@gmail.com**20110609183451
+ Ignore-this: 94e8b45f120137ea2ec87d0987b3ddf5
+] 
+[support for destructuring bind in function decls with fun and lambda syntax
+gershomb@gmail.com**20110609145346
+ Ignore-this: 91bc37b24c09f4a21760c9e10bf0bbc0
+] 
+[infix cons operator
+gershomb@gmail.com**20110608184658
+ Ignore-this: e1bfe99a32321201775e1bf06bc81796
+] 
+[infix application operators |> and <|
+gershomb@gmail.com**20110607160101
+ Ignore-this: cebbb475efd6fd15a0dae1be22512cdb
+] 
+[three parser changes -- integrate comments and regex literals, handle null returns, and handle assignuatation (i.e. +=)
+gershomb@gmail.com**20110606175929
+ Ignore-this: fbe065186b0772b6eac9821746c935a0
+] 
+[tweak parser, always escape forward slash
+gershomb@gmail.com**20110520192637
+ Ignore-this: 8b67aa065d8c34d49d8f0b696178cf69
+] 
+[haddock fixes
+**20110328190136
+ Ignore-this: cbab305a01817fa3755df125aa61fc17
+] 
+[changes to work with ghc 7
+**20110324141648
+ Ignore-this: b5b89b5c199d6ede9e438159ba88eb9b
+] 
+[use web-encodings for strings, json instance
+**20101229175011
+ Ignore-this: aa46a0e368db9e3ac365a1241095a7bf
+] 
+[rpc changes
+**20101220153929
+ Ignore-this: ff52bff02a42aa7b430aa295a1a49aa5
+] 
+[fixes for ghc7/mtl2
+**20101220153904
+ Ignore-this: b919926e84aa124437a7349ef7a002d2
+] 
+[conversations checkin
+**20101220153046
+ Ignore-this: cbe3bc357fa9e9933b582fec7c34c737
+] 
+[allow pure numeric selectors (i.e. expressions following dots)
+**20100907195302
+ Ignore-this: e2bbf9b93346407e20e9b80372ed7c1a
+] 
+[freeze more vars (on constraint unification), tryclose keeps going until no new free vars
+**20100907181109
+ Ignore-this: d1c73bed01d8121bd0702de6ff53e8e5
+] 
+[don't eagerly instantiate function constraints
+**20100907172403
+ Ignore-this: feccf9bb10332d1f46f11e9798ffcf98
+] 
+[fix antiquotation of "funny" identifiers (i.e. starting with caps, having dollars)
+**20100907163301
+ Ignore-this: c9732868201689da370773abd6094ba6
+] 
+[build quasiquoters with record syntax (new th compat)
+**20100927162715
+ Ignore-this: f4f65d268deaf1c80c98495a7c87dfb4
+] 
+[records have a least bound
+**20100907124814
+ Ignore-this: 4a95f644a05b750f8efba1b73e9da0de
+] 
+[occurs check
+**20100903201032
+ Ignore-this: e86348a71c3daf0939d94cbb7919721d
+] 
+[fix cabal
+**20100901190634
+ Ignore-this: 1ceb6e0bcd70530df3b3d5c7532ace13
+] 
+[types almost working -- chain reduction, loop checking in place. still no occurs check
+**20100901190541
+ Ignore-this: d15d8ab7336648e40ae1c322624fae57
+] 
+[types
+**20100827212541
+ Ignore-this: 3ff4372027e97d0ba7fa064f62871e6b
+] 
+[explicit foralls
+**20100806183544
+ Ignore-this: cb286495e2ba816f0bb99b90a9d59ddf
+] 
+[typechecker sans closing constraints
+**20100730190834
+ Ignore-this: fbe55fb1647aec095a1e5576a3ae043
+] 
+[much more types
+**20100728203947
+ Ignore-this: 5a042bfe297073e45352bc0cc32c777a
+] 
+[more types
+**20100726181317
+ Ignore-this: 980458c14b31e59736520c709411d1e4
+] 
+[more typecheck scaffolding
+**20100721200550
+ Ignore-this: bf15c6a1b2eccc791f150e90c5b372e8
+] 
+[current state of types
+**20100720160326
+ Ignore-this: a5d92e47874343406833ed9e6be8a727
+] 
+[switch haskell-src-meta dependency to haskell-src-exts-qq
+**20100714143311
+ Ignore-this: 1b96d962d3a6591109d9d01706e039dc
+] 
+[add version bump, rpcs
+gershomb@gmail.com**20100522170850
+ Ignore-this: b88094af7eaaf6af368dfd41b065a897
+] 
+[add prelude
+gershomb@gmail.com**20100522020338
+ Ignore-this: 63728e88cf3da49abf40b01cb7dad67
+] 
+[remove wiki nonsense
+gershomb@gmail.com**20100521190720
+ Ignore-this: 2a4f694751293cd4d7d237578ea782c9
+] 
+[stricter semicolons, expose prelude
+**20100520181103
+ Ignore-this: f01f193946feb159bb94f2190af744b1
+] 
+[User's guide (README)
+Gitit <>**20100210234631
+ Ignore-this: 1296726c793d47177910bc06306db8fc
+] 
+[Default help page
+Gitit <>**20100210234631
+ Ignore-this: e214a562a449143cd7f1c0561339d407
+] 
+[Default front page
+Gitit <>**20100210234631
+ Ignore-this: 1ee1866d0f2619e08b2be10a6e7d7cb2
+] 
+[fix repo
+gershomb@gmail.com**20100210182639
+ Ignore-this: cb32e1b900ba47746a9c3c487086342
+] 
+[add executable, misc tweaks
+**20091229213916
+ Ignore-this: 907c4835b0158a2a798eeae2cd5e232b
+] 
+[tweak lexing
+gershomb@gmail.com**20090801004601
+ Ignore-this: 9ffcd0efd79d0c40bc79e02dda87878b
+] 
+[documentation, regex fix
+gershomb@gmail.com**20090728011724
+ Ignore-this: 2f55b2c544518fb33c10362edccd5985
+] 
+[version bump
+gershomb@gmail.com**20090726195702
+ Ignore-this: 12238e082972c3a8529333e45d4186b3
+] 
+[parser tweaks
+gershomb@gmail.com**20090726195554
+ Ignore-this: 22cc2dfbb9716ef38a2ff500e1d7cfe8
+] 
+[cabal
+gershomb@gmail.com**20090725215606
+ Ignore-this: aa6c1e6eba81ba81bebaaa68c5a589bf
+] 
+[more
+gershomb@gmail.com**20090725215248
+ Ignore-this: cbfde4b49dcd11b0f757fb8498c0cf00
+] 
+[documentation
+gershomb@gmail.com**20090725215106
+ Ignore-this: f394ee906e6ed66c5df0ec125f44d0e5
+] 
+[darcs push
+gershomb@gmail.com**20090724220801
+ Ignore-this: 6ff62a36fb310b6fc311d4e9cdef8679
+] 
+[initial checkin
+gershomb@gmail.com**20090724153409
+ Ignore-this: 4d2135cf30775c696524f5cefe953ae
+] 
+Patch bundle hash:
+cd349f0b1dcfc2e3dddce2f31692dedf06953c2c

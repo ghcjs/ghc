@@ -51,7 +51,7 @@ ghc-pkg unregister zlib
 ghc-pkg unregister random
 ghc-pkg unregister text
 
-cabal install cabal-meta --prefix=$HOME/ghcjs
+cabal install cabal-meta cabal-src --prefix=$HOME/ghcjs
 
 cd libraries/ghcjs
 cabal-meta install -f-compiler-only -fgen2 -ftrampoline -fplain
