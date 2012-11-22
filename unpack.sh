@@ -116,7 +116,7 @@ rm -rf libraries/parallel
 mv parallel-3.2.0.3 libraries/parallel
 
 cabal unpack semigroups-0.8.4.1
-rm -f libraries/semigroups
+rm -rf libraries/semigroups
 mv semigroups-0.8.4.1 libraries/semigroups
 
 cabal unpack contravariant-0.2.0.2
@@ -130,3 +130,16 @@ mv distributive-0.2.2 libraries/distributive
 cabal unpack semigroupoids-3.0.0.1
 rm -rf libraries/semigroupoids
 mv semigroupoids-3.0.0.1 libraries/semigroupoids
+
+cp -f ghcjs-patches/cpphs.cabal libraries/cpphs/
+cp -f ghcjs-patches/parseargs.cabal libraries/parseargs/
+cp mk/build.mk.sample mk/build.mk
+cd libraries
+rm -rf jmacro
+darcs get --lazy http://patch-tag.com/r/gershomb/jmacro
+darcs apply --repodir=jmacro ../ghcjs-patches/jmacro.patch
+cd ghcjs
+git checkout gen2
+cd ../..
+patch -p0 < ghcjs-patches/th-orphans.patch
+
