@@ -14,7 +14,7 @@ make -j5 stage=3 || make stage=3
 # Replace the stage 1 and 2 binaries with the stage 3 one
 cp inplace/lib/ghc-stage3 inplace/lib/ghc-stage1
 cp inplace/lib/ghc-stage3 inplace/lib/ghc-stage2
-cp ghc/stage3/build/tmp/ghc-stage3 ghc/stage2/Build/tmp/ghc-stage2
+cp ghc/stage3/build/tmp/ghc-stage3 ghc/stage2/build/tmp/ghc-stage2
 
 rm -rf compiler/stage2
 rm -rf libraries/*/dist-install
@@ -23,7 +23,7 @@ make -j5 || make
 
 # Replace the stage 1 and 2 binaries with the stage 3 one
 cp inplace/lib/ghc-stage3 inplace/lib/ghc-stage2
-cp ghc/stage3/build/tmp/ghc-stage3 ghc/stage2/Build/tmp/ghc-stage2
+cp ghc/stage3/build/tmp/ghc-stage3 ghc/stage2/build/tmp/ghc-stage2
 
 # Delete the stuff that was built without JavaScript
 rm -rf libraries/haskell98/dist-install

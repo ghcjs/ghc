@@ -15,7 +15,7 @@ script:
   - make -j5 stage=3 || make stage=3
   - cp inplace/lib/ghc-stage3 inplace/lib/ghc-stage1
   - cp inplace/lib/ghc-stage3 inplace/lib/ghc-stage2
-  - cp ghc/stage3/build/tmp/ghc-stage3 ghc/stage2/Build/tmp/ghc-stage2
+  - cp ghc/stage3/build/tmp/ghc-stage3 ghc/stage2/build/tmp/ghc-stage2
 
   - rm -rf compiler/stage2
   - rm -rf libraries/*/dist-install
@@ -23,7 +23,7 @@ script:
   - make -j5 || make
 
   - cp inplace/lib/ghc-stage3 inplace/lib/ghc-stage2
-  - cp ghc/stage3/build/tmp/ghc-stage3 ghc/stage2/Build/tmp/ghc-stage2
+  - cp ghc/stage3/build/tmp/ghc-stage3 ghc/stage2/build/tmp/ghc-stage2
 
   - rm -rf libraries/haskell98/dist-install
   - rm -rf libraries/haskell2010/dist-install
