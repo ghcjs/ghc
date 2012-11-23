@@ -3,13 +3,39 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get --no-install-recommends install darcs
   - sudo apt-get clean
-install:
   - ./sync-all -r https://github.com/ghc get
   - ./sync-all -r https://github.com/ghcjs --ghcjs get
   - ./sync-all checkout ghc-7.6
   - ./unpack.sh
+  - perl boot
+  - ./configure --prefix=$HOME/ghcjs
+install:
+  - make -j5 || make
 script:
-  - sh -ex ghcjs-build.sh
+  - make -j5 stage=3 || make stage=3
+  - cp inplace/lib/ghc-stage3 inplace/lib/ghc-stage1
+  - cp inplace/lib/ghc-stage3 inplace/lib/ghc-stage2
+  - cp ghc/stage3/build/tmp/ghc-stage3 ghc/stage2/Build/tmp/ghc-stage2
+
+  - rm -rf compiler/stage2
+  - rm -rf libraries/*/dist-install
+  - rm -rf libraries/*/*/dist-install
+  - make -j5 || make
+
+  - cp inplace/lib/ghc-stage3 inplace/lib/ghc-stage2
+  - cp ghc/stage3/build/tmp/ghc-stage3 ghc/stage2/Build/tmp/ghc-stage2
+
+  - rm -rf libraries/haskell98/dist-install
+  - rm -rf libraries/haskell2010/dist-install
+  - make -j5 || make
+
+  - make install
+
+  - export PATH=$HOME/ghcjs/bin:$PATH
+  - hash -r
+
+  - rm $HOME/ghcjs/bin/cabal || true  
+
 notifications:
   irc:
     channels: "irc.freenode.net#ghcjs"
