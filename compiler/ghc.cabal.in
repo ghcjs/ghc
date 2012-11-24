@@ -91,12 +91,14 @@ Library
             Gen2.RtsApply
             Gen2.RtsPrim
             Gen2.Rts
+            Gen2.Shim
             Gen2.StgAst
             Gen2.Prim
             Gen2.Utils
             Gen2.Floater
             Gen2.Generator
             Gen2.Linker
+            Compiler.Info
             Compiler.Variants
             Generator.Link
 

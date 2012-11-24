@@ -13,6 +13,7 @@ before_install:
   - perl boot
   - ./configure --prefix=$HOME/ghcjs
 install:
+  - make -j2 stage=1 || make stage=1
   - make -j2 || make
 script:
   - make -j2 stage=3 || make stage=3
