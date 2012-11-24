@@ -75,10 +75,11 @@ Library
         Include-Dirs: ../rts/dist/build
 
     if flag(stage3)
-        CPP-Options: -DGHCJS_ENABLED -DGHCJS_TRAMPOLINE
+        CPP-Options: -DGHCJS_ENABLED -DGHCJS_INTEGRATED -DGHCJS_TRAMPOLINE
         Build-Depends: syb, mtl, template-haskell, aeson, jmacro,
                        attoparsec, text, wl-pprint-text, cereal,
-                       hoopl, lens
+                       hoopl, lens, parsec, resourcet, conduit,
+                       yaml
         Exposed-Modules:
             Gen2.Optimizer
             Gen2.Printer

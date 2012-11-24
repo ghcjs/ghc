@@ -131,6 +131,38 @@ cabal unpack semigroupoids-3.0.0.1
 rm -rf libraries/semigroupoids
 mv semigroupoids-3.0.0.1 libraries/semigroupoids
 
+cabal unpack yaml-0.8.1.1
+rm -rf libraries/yaml
+mv yaml-0.8.1.1 libraries/yaml
+
+cabal unpack resourcet-0.4.4
+rm -rf libraries/resourcet
+mv resourcet-0.4.4 libraries/resourcet
+
+cabal unpack conduit-0.5.4.1
+rm -rf libraries/conduit
+mv conduit-0.5.4.1 libraries/conduit
+
+cabal unpack monad-control-0.3.1.4
+rm -rf libraries/monad-control
+mv monad-control-0.3.1.4 libraries/monad-control
+
+cabal unpack lifted-base-0.2
+rm -rf libraries/lifted-base
+mv lifted-base-0.2 libraries/lifted-base
+
+cabal unpack transformers-base-0.4.1
+rm -rf libraries/transformers-base
+mv transformers-base-0.4.1 libraries/transformers-base
+
+cabal unpack base-unicode-symbols-0.2.2.4
+rm -rf libraries/base-unicode-symbols
+mv base-unicode-symbols-0.2.2.4 libraries/base-unicode-symbols
+
+cabal unpack void-0.5.8
+rm -rf libraries/void
+mv void-0.5.8 libraries/void
+
 cp -f ghcjs-patches/cpphs.cabal libraries/cpphs/
 cp -f ghcjs-patches/parseargs.cabal libraries/parseargs/
 cp mk/build.mk.sample mk/build.mk

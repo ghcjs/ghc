@@ -27,3 +27,11 @@
 /comonads-fd/
 /contravariant/
 /distributive/
+/base-unicode-symbols/
+/conduit/
+/lifted-base/
+/monad-control/
+/resourcet/
+/transformers-base/
+/void/
+/yaml/

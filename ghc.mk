@@ -315,7 +315,9 @@ PKGS_THAT_ARE_INTREE_ONLY := haskeline transformers terminfo utf8-string \
     unordered-containers attoparsec blaze-builder safe regex-base regex-posix \
     primitive dlist parseargs th-lift th-orphans haskell-src-meta vector \
     aeson jmacro cereal lens comonad comonad-transformers comonads-fd \
-    semigroups contravariant distributive semigroupoids
+    semigroups contravariant distributive semigroupoids yaml resourcet \
+    conduit lifted-base transformers-base monad-control base-unicode-symbols \
+    void
 
 PKGS_THAT_ARE_DPH := \
     dph/dph-base \
@@ -328,7 +330,7 @@ PKGS_THAT_ARE_DPH := \
 # because they use TH and/or annotations, or depend on other stage2
 # packages:
 PKGS_THAT_BUILD_WITH_STAGE2 := $(PKGS_THAT_ARE_DPH) haskell98 haskell2010 \
-    th-lift haskell-src-meta vector th-orphans aeson jmacro lens
+    th-lift haskell-src-meta vector th-orphans aeson yaml jmacro lens
 
 # Packages that we shouldn't build if we don't have TH (e.g. because
 # we're building a profiled compiler):
@@ -456,6 +458,13 @@ $(eval $(call addPackage,hashable))
 $(eval $(call addPackage,unordered-containers))
 $(eval $(call addPackage,attoparsec))
 $(eval $(call addPackage,blaze-builder))
+$(eval $(call addPackage,base-unicode-symbols))
+$(eval $(call addPackage,transformers-base))
+$(eval $(call addPackage,monad-control))
+$(eval $(call addPackage,lifted-base))
+$(eval $(call addPackage,resourcet))
+$(eval $(call addPackage,void))
+$(eval $(call addPackage,conduit))
 $(eval $(call addPackage,safe))
 $(eval $(call addPackage,regex-base))
 $(eval $(call addPackage,regex-posix))
@@ -466,6 +475,7 @@ $(eval $(call addPackage,aeson))
 $(eval $(call addPackage,parseargs))
 
 $(eval $(call extra-packages))
+$(eval $(call addPackage,yaml))
 $(eval $(call addPackage,lens))
 $(eval $(call addPackage,jmacro))
 
