@@ -2,6 +2,9 @@ language: haskell
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get --no-install-recommends install darcs
+  - apt-cache search java | awk '{print($1)}' | grep -E -e '^(ia32-)?(sun|oracle)-java' -e '^openjdk-' -e '^icedtea' -e '^(default|gcj)-j(re|dk)' -e '^gcj-(.*)-j(re|dk)' -e 'java-common' | xargs sudo apt-get -y remove
+  - sudo apt-get -y autoremove
+  - dpkg -l | grep ^rc | awk '{print($2)}' | xargs sudo apt-get -y purge
   - sudo apt-get clean
   - ./sync-all -r https://github.com/ghc get
   - ./sync-all -r https://github.com/ghcjs --ghcjs get
