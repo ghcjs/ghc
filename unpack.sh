@@ -166,6 +166,7 @@ mv void-0.5.8 libraries/void
 cp -f ghcjs-patches/cpphs.cabal libraries/cpphs/
 cp -f ghcjs-patches/parseargs.cabal libraries/parseargs/
 cp mk/build.mk.sample mk/build.mk
+echo "HADDOCK_DOCS = NO" >> mk/build.mk
 cd libraries
 rm -rf jmacro
 darcs get --lazy http://patch-tag.com/r/gershomb/jmacro
