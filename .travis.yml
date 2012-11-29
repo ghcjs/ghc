@@ -2,6 +2,7 @@ language: haskell
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get --no-install-recommends install darcs
+  - sudo apt-get build-dep ghc
   - apt-cache search java | awk '{print($1)}' | grep -E -e '^(ia32-)?(sun|oracle)-java' -e '^openjdk-' -e '^icedtea' -e '^(default|gcj)-j(re|dk)' -e '^gcj-(.*)-j(re|dk)' -e 'java-common' | xargs sudo apt-get -y remove
   - sudo apt-get -y autoremove
   - dpkg -l | grep ^rc | awk '{print($2)}' | xargs sudo apt-get -y purge
@@ -12,8 +13,9 @@ before_install:
   - ./unpack.sh
   - perl boot
   - ./configure --prefix=$HOME/ghcjs
+  - make -j2 stage=0 || true
+  - make -j2 stage=1 || true
 install:
-  - make -j2 stage=1 || make stage=1
   - make -j2 || make
 script:
   - make -j2 stage=3 || make stage=3
@@ -36,9 +38,24 @@ script:
   - make install
 
   - export PATH=$HOME/ghcjs/bin:$PATH
+  - cabal install cabal-install --prefix=$HOME/ghcjs
   - hash -r
+  - ghc-pkg unregister HTTP
+  - ghc-pkg unregister network
+  - ghc-pkg unregister parsec
+  - ghc-pkg unregister mtl
+  - ghc-pkg unregister transformers
+  - ghc-pkg unregister zlib
+  - ghc-pkg unregister random
+  - ghc-pkg unregister text
 
-  - rm $HOME/ghcjs/bin/cabal || true  
+  - cabal install cabal-meta cabal-src --prefix=$HOME/ghcjs
+
+  - cd libraries/ghcjs
+  - cabal-meta install -f-compiler-only -fgen2 -ftrampoline -fplain
+
+  - cd ../..
+  - ghcjs-boot
 
 notifications:
   irc:
