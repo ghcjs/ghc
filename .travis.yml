@@ -7,8 +7,8 @@ before_install:
   - sudo apt-get -y autoremove
   - dpkg -l | grep ^rc | awk '{print($2)}' | xargs sudo apt-get -y purge
   - sudo apt-get clean
-  - ./sync-all -r https://github.com/ghc get
-  - ./sync-all -r https://github.com/ghcjs --ghcjs get
+  - ./sync-all -r https://github.com/ghc get || ./sync-all -r https://github.com/ghc get
+  - ./sync-all -r https://github.com/ghcjs --ghcjs get || ./sync-all -r https://github.com/ghcjs --ghcjs get
   - ./sync-all checkout ghc-7.6
   - ./unpack.sh
   - perl boot
