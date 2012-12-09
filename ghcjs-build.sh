@@ -55,7 +55,7 @@ cabal install cabal-meta cabal-src --prefix=$HOME/ghcjs
 
 cd libraries/ghcjs
 cabal clean
-cabal-meta install -f-compiler-only -fgen2 -ftrampoline -fplain
+cabal-meta install -f-compiler-only -f-gen2 -ftrampoline -f-plain
 
 cd ../..
 ghcjs-boot
