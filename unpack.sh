@@ -171,8 +171,6 @@ cd libraries
 rm -rf jmacro
 darcs get --lazy http://patch-tag.com/r/gershomb/jmacro
 darcs apply --repodir=jmacro ../ghcjs-patches/jmacro.patch
-cd ghcjs
-git checkout gen2
-cd ../..
+cd ..
 patch -p0 < ghcjs-patches/th-orphans.patch
 
