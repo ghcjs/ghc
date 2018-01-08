@@ -36,13 +36,13 @@ module Language.Haskell.TH.PprLib (
 
 
 import Language.Haskell.TH.Syntax
-    (Name(..), showName', NameFlavour(..), NameIs(..))
+    (Uniq, Name(..), showName', NameFlavour(..), NameIs(..))
 import qualified Text.PrettyPrint as HPJ
 import Control.Monad (liftM, liftM2, ap)
 import Language.Haskell.TH.Lib.Map ( Map )
 import qualified Language.Haskell.TH.Lib.Map as Map ( lookup, insert, empty )
 
-infixl 6 <> 
+infixl 6 <>
 infixl 6 <+>
 infixl 5 $$, $+$
 
@@ -116,7 +116,7 @@ punctuate :: Doc -> [Doc] -> [Doc]
 -- ---------------------------------------------------------------------------
 -- The "implementation"
 
-type State = (Map Name Name, Int)
+type State = (Map Name Name, Uniq)
 data PprM a = PprM { runPprM :: State -> (a, State) }
 
 pprName :: Name -> Doc
