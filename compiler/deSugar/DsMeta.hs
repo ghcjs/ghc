@@ -621,7 +621,7 @@ repSafety PlaySafe = rep2 safeName []
 
 repFixD :: LFixitySig GhcRn -> DsM [(SrcSpan, Core TH.DecQ)]
 repFixD (L loc (FixitySig _ names (Fixity _ prec dir)))
-  = do { MkC prec' <- coreIntLit prec
+  = do { MkC prec' <- coreIntLit (toInteger prec)
        ; let rep_fn = case dir of
                         InfixL -> infixLDName
                         InfixR -> infixRDName
