@@ -28,7 +28,7 @@
 	ignore = untracked
 [submodule "libraries/transformers"]
 	path = libraries/transformers
-	url = https://gitlab.haskell.org/packages/transformers.git
+	url = https://gitlab.haskell.org/ghc/packages/transformers.git
 	ignore = untracked
 [submodule "libraries/xhtml"]
 	path = libraries/xhtml
