@@ -190,11 +190,15 @@ mkPluginUsage hsc_env pluginModule
       files <- filterM doesFileExist paths
       case files of
         [] ->
+          -- FIXME workaround for GHCJS having different file names
+          -- check bypassed!
+          return []
+        {--
           pprPanic
              ( "mkPluginUsage: missing plugin library, tried:\n"
               ++ unlines paths
              )
-             (ppr pNm)
+             (ppr pNm) -}
         _  -> mapM hashFile (nub files)
     _ -> do
       foundM <- findPluginModule hsc_env pNm
@@ -206,7 +210,10 @@ mkPluginUsage hsc_env pluginModule
           pluginObject <- hashFile (ml_obj_file ml)
           depObjects   <- catMaybes <$> mapM lookupObjectFile deps
           return (nub (pluginObject : depObjects))
-        _ -> pprPanic "mkPluginUsage: no object file found" (ppr pNm)
+        _ -> return []
+        -- FIXME workaround for GHCJS having different library name
+        -- check bypassed
+        -- _ -> pprPanic "mkPluginUsage: no object file found" (ppr pNm)
   where
     dflags   = hsc_dflags hsc_env
     platform = targetPlatform dflags
