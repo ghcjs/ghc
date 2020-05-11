@@ -920,7 +920,7 @@ To call runQ in the Tc monad, we need to make TcM an instance of Quasi:
 instance TH.Quasi TcM where
   qNewName s = do { u <- newUnique
                   ; let i = toInteger (getKey u)
-                  ; return (TH.mkNameU s i) }
+                  ; return (TH.mkNameU s (fromIntegral i)) }
 
   -- 'msg' is forced to ensure exceptions don't escape,
   -- see Note [Exceptions in TH]
@@ -2037,7 +2037,7 @@ reifyName :: NamedThing n => n -> TH.Name
 reifyName thing
   | isExternalName name
               = mk_varg pkg_str mod_str occ_str
-  | otherwise = TH.mkNameU occ_str (toInteger $ getKey (getUnique name))
+  | otherwise = TH.mkNameU occ_str (fromIntegral $ getKey (getUnique name))
         -- Many of the things we reify have local bindings, and
         -- NameL's aren't supposed to appear in binding positions, so
         -- we use NameU.  When/if we start to reify nested things, that
