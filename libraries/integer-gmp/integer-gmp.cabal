@@ -22,7 +22,6 @@ extra-source-files:
     aclocal.m4
     cbits/wrappers.c
     changelog.md
-    config.guess
     config.sub
     configure
     configure.ac
